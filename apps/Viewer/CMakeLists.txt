@@ -12,7 +12,7 @@ if(GLEW_FOUND)
 	INCLUDE_DIRECTORIES(${GLEW_INCLUDE_DIRS})
 	ADD_DEFINITIONS(${GLEW_DEFINITIONS} -DGLEW_STATIC)
 else()
-	MESSAGE("-- Can't find GLEW. Continuing without it.")
+	MESSAGE(SEND_ERROR "-- Can't find GLEW. Continuing without it.")
 	RETURN()
 endif()
 if(CMAKE_COMPILER_IS_GNUCXX)
@@ -55,6 +55,8 @@ cxx_executable_with_flags_no_pch(${VIEWER_NAME} "Apps" "${cxx_default}" "MVS;${O
 
 # Manually set Common.h as the precompiled header
 set_target_pch(${VIEWER_NAME} Common.h)
+
+target_link_libraries(${VIEWER_NAME} glfw)
 
 if(OpenMVS_USE_BREAKPAD AND BREAKPAD_FOUND)
 	target_link_libraries(${VIEWER_NAME} ${BREAKPAD_LIBS})
